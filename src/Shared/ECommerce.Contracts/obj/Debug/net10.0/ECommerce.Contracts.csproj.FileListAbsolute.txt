@@ -1,0 +1,11 @@
+/Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/src/Shared/ECommerce.Contracts/bin/Debug/net10.0/ECommerce.Contracts.deps.json
+/Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/src/Shared/ECommerce.Contracts/bin/Debug/net10.0/ECommerce.Contracts.dll
+/Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/src/Shared/ECommerce.Contracts/bin/Debug/net10.0/ECommerce.Contracts.pdb
+/Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/src/Shared/ECommerce.Contracts/obj/Debug/net10.0/ECommerce.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+/Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/src/Shared/ECommerce.Contracts/obj/Debug/net10.0/ECommerce.Contracts.AssemblyInfoInputs.cache
+/Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/src/Shared/ECommerce.Contracts/obj/Debug/net10.0/ECommerce.Contracts.AssemblyInfo.cs
+/Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/src/Shared/ECommerce.Contracts/obj/Debug/net10.0/ECommerce.Contracts.csproj.CoreCompileInputs.cache
+/Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/src/Shared/ECommerce.Contracts/obj/Debug/net10.0/ECommerce.Contracts.dll
+/Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/src/Shared/ECommerce.Contracts/obj/Debug/net10.0/refint/ECommerce.Contracts.dll
+/Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/src/Shared/ECommerce.Contracts/obj/Debug/net10.0/ECommerce.Contracts.pdb
+/Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/src/Shared/ECommerce.Contracts/obj/Debug/net10.0/ref/ECommerce.Contracts.dll
