@@ -30,3 +30,4 @@
 /Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/src/ApiGateway/obj/Debug/net10.0/ApiGateway.pdb
 /Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/src/ApiGateway/obj/Debug/net10.0/ApiGateway.genruntimeconfig.cache
 /Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/src/ApiGateway/obj/Debug/net10.0/ref/ApiGateway.dll
+/Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/src/ApiGateway/obj/Debug/net10.0/ApiGateway.sourcelink.json

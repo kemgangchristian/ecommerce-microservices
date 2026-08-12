@@ -46,3 +46,4 @@
 /Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/src/ProductService/obj/Debug/net10.0/ProductService.pdb
 /Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/src/ProductService/obj/Debug/net10.0/ProductService.genruntimeconfig.cache
 /Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/src/ProductService/obj/Debug/net10.0/ref/ProductService.dll
+/Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/src/ProductService/obj/Debug/net10.0/ProductService.sourcelink.json

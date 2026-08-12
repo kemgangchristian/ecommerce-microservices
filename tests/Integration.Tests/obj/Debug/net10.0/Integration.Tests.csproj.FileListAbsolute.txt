@@ -146,3 +146,4 @@
 /Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/tests/Integration.Tests/obj/Debug/net10.0/Integration.Tests.pdb
 /Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/tests/Integration.Tests/obj/Debug/net10.0/Integration.Tests.genruntimeconfig.cache
 /Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/tests/Integration.Tests/obj/Debug/net10.0/ref/Integration.Tests.dll
+/Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/tests/Integration.Tests/obj/Debug/net10.0/Integration.Tests.sourcelink.json

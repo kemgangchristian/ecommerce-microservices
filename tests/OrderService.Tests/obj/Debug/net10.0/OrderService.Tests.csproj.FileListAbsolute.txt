@@ -139,3 +139,4 @@
 /Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/tests/OrderService.Tests/bin/Debug/net10.0/MassTransit.TestFramework.dll
 /Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/tests/OrderService.Tests/bin/Debug/net10.0/nunit.framework.dll
 /Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/tests/OrderService.Tests/bin/Debug/net10.0/nunit.framework.legacy.dll
+/Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/tests/OrderService.Tests/obj/Debug/net10.0/OrderService.Tests.sourcelink.json

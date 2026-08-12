@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Moq;
 using ProductService.Data;
+using ProductService.DTOs;
 using ProductService.Endpoints;
 using ProductService.Models;
 using Xunit;
@@ -12,7 +13,6 @@ public class ProductEndpointsTests
     [Fact]
     public async Task GetAllProducts_ReturnsOkWithProductList()
     {
-        // Arrange : on mocke IProductRepository, jamais Mongo directement.
         var products = new List<Product>
         {
             new() { Name = "Clavier", Price = 79.99m, StockQuantity = 10 },
@@ -21,14 +21,8 @@ public class ProductEndpointsTests
         var repositoryMock = new Mock<IProductRepository>();
         repositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(products);
 
-        // Act : on appelle directement la méthode statique, sans démarrer
-        // de serveur HTTP — c'est ce que le passage aux méthodes nommées
-        // (étape 18) rend possible.
         var result = await ProductEndpoints.GetAllProducts(repositoryMock.Object);
 
-        // Assert : on inspecte le IResult via les interfaces standard des
-        // "Typed Results" ASP.NET Core, plutôt que de dépendre d'un type
-        // concret précis.
         var statusResult = Assert.IsAssignableFrom<IStatusCodeHttpResult>(result);
         Assert.Equal(StatusCodes.Status200OK, statusResult.StatusCode);
 
@@ -62,41 +56,80 @@ public class ProductEndpointsTests
     }
 
     [Fact]
-    public async Task CreateProduct_CallsRepositoryOnceAndReturnsCreated()
+    public async Task CreateProduct_CallsRepositoryWithMappedProduct_ReturnsCreated()
     {
         var repositoryMock = new Mock<IProductRepository>();
-        var product = new Product { Name = "Ecran", Price = 199.99m, StockQuantity = 5 };
+        var request = new CreateProductRequest("Ecran", "27 pouces", 199.99m, 5);
 
-        var result = await ProductEndpoints.CreateProduct(product, repositoryMock.Object);
+        var result = await ProductEndpoints.CreateProduct(request, repositoryMock.Object);
 
-        // Vérifie que la méthode métier attendue a bien été appelée, une
-        // seule fois, avec l'objet exact reçu — pas juste que "quelque chose"
-        // a été appelé sur le mock.
-        repositoryMock.Verify(r => r.CreateAsync(product), Times.Once);
+        // Vérifie que le Product construit à partir du DTO contient bien
+        // les valeurs fournies (l'Id est généré en interne, on ne le teste pas).
+        repositoryMock.Verify(r => r.CreateAsync(It.Is<Product>(p =>
+            p.Name == "Ecran" &&
+            p.Description == "27 pouces" &&
+            p.Price == 199.99m &&
+            p.StockQuantity == 5)), Times.Once);
 
         var statusResult = Assert.IsAssignableFrom<IStatusCodeHttpResult>(result);
         Assert.Equal(StatusCodes.Status201Created, statusResult.StatusCode);
     }
 
     [Fact]
-    public async Task UpdateProduct_ExistingId_ReturnsNoContent()
+    public async Task ReplaceProduct_ExistingId_ReturnsNoContent()
     {
         var repositoryMock = new Mock<IProductRepository>();
         repositoryMock.Setup(r => r.UpdateAsync("abc123", It.IsAny<Product>())).ReturnsAsync(true);
 
-        var result = await ProductEndpoints.UpdateProduct("abc123", new Product(), repositoryMock.Object);
+        var request = new CreateProductRequest("Clavier", "RGB", 79.99m, 10);
+        var result = await ProductEndpoints.ReplaceProduct("abc123", request, repositoryMock.Object);
 
         var statusResult = Assert.IsAssignableFrom<IStatusCodeHttpResult>(result);
         Assert.Equal(StatusCodes.Status204NoContent, statusResult.StatusCode);
     }
 
     [Fact]
-    public async Task UpdateProduct_UnknownId_ReturnsNotFound()
+    public async Task ReplaceProduct_UnknownId_ReturnsNotFound()
     {
         var repositoryMock = new Mock<IProductRepository>();
         repositoryMock.Setup(r => r.UpdateAsync(It.IsAny<string>(), It.IsAny<Product>())).ReturnsAsync(false);
 
-        var result = await ProductEndpoints.UpdateProduct("unknown", new Product(), repositoryMock.Object);
+        var request = new CreateProductRequest("Clavier", "RGB", 79.99m, 10);
+        var result = await ProductEndpoints.ReplaceProduct("unknown", request, repositoryMock.Object);
+
+        var statusResult = Assert.IsAssignableFrom<IStatusCodeHttpResult>(result);
+        Assert.Equal(StatusCodes.Status404NotFound, statusResult.StatusCode);
+    }
+
+    [Fact]
+    public async Task PatchProduct_OnlyPriceProvided_CallsRepositoryWithOnlyPriceSet()
+    {
+        var repositoryMock = new Mock<IProductRepository>();
+        repositoryMock
+            .Setup(r => r.PatchAsync("abc123", null, null, 89.99m, null))
+            .ReturnsAsync(true);
+
+        var request = new UpdateProductRequest(null, null, 89.99m, null);
+        var result = await ProductEndpoints.PatchProduct("abc123", request, repositoryMock.Object);
+
+        // Preuve du comportement partiel : seul le prix est transmis au
+        // repository, les 3 autres paramètres restent null.
+        repositoryMock.Verify(r => r.PatchAsync("abc123", null, null, 89.99m, null), Times.Once);
+
+        var statusResult = Assert.IsAssignableFrom<IStatusCodeHttpResult>(result);
+        Assert.Equal(StatusCodes.Status204NoContent, statusResult.StatusCode);
+    }
+
+    [Fact]
+    public async Task PatchProduct_UnknownId_ReturnsNotFound()
+    {
+        var repositoryMock = new Mock<IProductRepository>();
+        repositoryMock
+            .Setup(r => r.PatchAsync(It.IsAny<string>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<decimal?>(), It.IsAny<int?>()))
+            .ReturnsAsync(false);
+
+        var request = new UpdateProductRequest("Nouveau nom", null, null, null);
+        var result = await ProductEndpoints.PatchProduct("unknown", request, repositoryMock.Object);
 
         var statusResult = Assert.IsAssignableFrom<IStatusCodeHttpResult>(result);
         Assert.Equal(StatusCodes.Status404NotFound, statusResult.StatusCode);

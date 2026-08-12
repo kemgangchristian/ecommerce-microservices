@@ -14,6 +14,11 @@ public interface IProductRepository
     Task<Product?> GetByIdAsync(string id);
     Task CreateAsync(Product product);
     Task<bool> UpdateAsync(string id, Product input);
+    /// <summary>
+    /// Applique une mise à jour partielle : seuls les paramètres non-null sont
+    /// modifiés, les autres champs restent inchangés en base.
+    /// </summary>
+    Task<bool> PatchAsync(string id, string? name, string? description, decimal? price, int? stockQuantity);
     Task<bool> DeleteAsync(string id);
 
     /// <summary>

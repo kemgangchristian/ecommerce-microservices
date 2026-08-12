@@ -15,10 +15,9 @@ namespace ProductService.Tests.Integration;
 /// </summary>
 public class MongoProductRepositoryTests : IAsyncLifetime
 {
-    private readonly MongoDbContainer _mongoContainer = new MongoDbBuilder()
-        .WithImage("mongo:7")
-        .Build();
-
+    private readonly MongoDbContainer _mongoContainer = new MongoDbBuilder("mongo:7")
+    .Build();
+    
     private MongoProductRepository _repository = null!;
 
     // IAsyncLifetime : xUnit appelle InitializeAsync avant le premier test

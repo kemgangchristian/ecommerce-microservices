@@ -31,6 +31,27 @@ public class MongoProductRepository : IProductRepository
         return result.MatchedCount > 0;
     }
 
+    public async Task<bool> PatchAsync(string id, string? name, string? description, decimal? price, int? stockQuantity)
+    {
+        var updates = new List<UpdateDefinition<Product>>();
+
+        if (name is not null)
+            updates.Add(Builders<Product>.Update.Set(p => p.Name, name));
+        if (description is not null)
+            updates.Add(Builders<Product>.Update.Set(p => p.Description, description));
+        if (price is not null)
+            updates.Add(Builders<Product>.Update.Set(p => p.Price, price.Value));
+        if (stockQuantity is not null)
+            updates.Add(Builders<Product>.Update.Set(p => p.StockQuantity, stockQuantity.Value));
+
+        if (updates.Count == 0)
+            return await GetByIdAsync(id) is not null;
+
+        var combinedUpdate = Builders<Product>.Update.Combine(updates);
+        var result = await _db.Products.UpdateOneAsync(p => p.Id == id, combinedUpdate);
+        return result.MatchedCount > 0;
+    }
+    
     public async Task<bool> DeleteAsync(string id)
     {
         var result = await _db.Products.DeleteOneAsync(p => p.Id == id);

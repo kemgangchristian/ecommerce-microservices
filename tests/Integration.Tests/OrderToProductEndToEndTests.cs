@@ -31,16 +31,13 @@ namespace Integration.Tests;
 /// </summary>
 public class OrderToProductEndToEndTests : IAsyncLifetime
 {
-    private readonly RabbitMqContainer _rabbitMqContainer = new RabbitMqBuilder()
-        .WithImage("rabbitmq:3-management")
+    private readonly RabbitMqContainer _rabbitMqContainer = new RabbitMqBuilder("rabbitmq:3-management")
         .Build();
 
-    private readonly MongoDbContainer _mongoContainer = new MongoDbBuilder()
-        .WithImage("mongo:7")
+    private readonly MongoDbContainer _mongoContainer = new MongoDbBuilder("mongo:7")
         .Build();
 
-    private readonly PostgreSqlContainer _postgresContainer = new PostgreSqlBuilder()
-        .WithImage("postgres:16")
+    private readonly PostgreSqlContainer _postgresContainer = new PostgreSqlBuilder("postgres:16")
         .WithDatabase("OrderServiceTestsDb")
         .WithUsername("postgres")
         .WithPassword("postgres")

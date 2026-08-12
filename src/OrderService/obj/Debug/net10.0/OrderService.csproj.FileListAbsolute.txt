@@ -129,3 +129,4 @@
 /Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/src/OrderService/obj/Debug/net10.0/OrderService.pdb
 /Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/src/OrderService/obj/Debug/net10.0/OrderService.genruntimeconfig.cache
 /Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/src/OrderService/obj/Debug/net10.0/ref/OrderService.dll
+/Users/clever/Desktop/Local/Isoset_et_vde/Projet/ecommerce-microservices/src/OrderService/obj/Debug/net10.0/OrderService.sourcelink.json
