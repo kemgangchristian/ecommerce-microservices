@@ -52,7 +52,15 @@ jobs:
 
     strategy:
       matrix:
-        service: [AuthService, ProductService, OrderService, ApiGateway]
+        include:
+          - service: AuthService
+            tag: authservice
+          - service: ProductService
+            tag: productservice
+          - service: OrderService
+            tag: orderservice
+          - service: ApiGateway
+            tag: apigateway
 
     steps:
       - name: Checkout
@@ -67,6 +75,6 @@ jobs:
           context: .
           file: src/${{ matrix.service }}/Dockerfile
           push: false
-          tags: ${{ matrix.service }}:ci
+          tags: ${{ matrix.tag }}:ci
           cache-from: type=gha
           cache-to: type=gha,mode=max
