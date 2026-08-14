@@ -16,8 +16,7 @@ namespace OrderService.Tests.Integration;
 /// </summary>
 public class OrderDbContextTests : IAsyncLifetime
 {
-    private readonly PostgreSqlContainer _postgresContainer = new PostgreSqlBuilder()
-        .WithImage("postgres:16")
+    private readonly PostgreSqlContainer _postgresContainer = new PostgreSqlBuilder("postgres:16")
         .WithDatabase("OrderServiceTestsDb")
         .WithUsername("postgres")
         .WithPassword("postgres")

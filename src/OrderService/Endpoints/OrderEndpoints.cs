@@ -12,10 +12,9 @@ public static class OrderEndpoints
     public static void MapOrderEndpoints(this WebApplication app)
     {
         var group = app.MapGroup("/api/orders").WithTags("Orders");
-
         group.MapGet("/", GetAllOrders);
         group.MapGet("/{id:guid}", GetOrderById);
-        group.MapPost("/", CreateOrder);
+        group.MapPost("/", CreateOrder).RequireAuthorization();
     }
 
     public static async Task<IResult> GetAllOrders(OrderDbContext db) =>

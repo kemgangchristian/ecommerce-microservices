@@ -1,15 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>a5c448a8-f136-4eaa-8ae1-557185d2afb6</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MassTransit" Version="8.5.1" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.1" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.11" />
     <PackageReference Include="MongoDB.Driver" Version="3.10.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
   </ItemGroup>

@@ -3,15 +3,15 @@ services:
     image: postgres:16
     container_name: postgres
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: OrderServiceDb
     ports:
       - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -30,16 +30,99 @@ services:
       retries: 5
 
   rabbitmq:
-    image: rabbitmq:3-management
+    image: rabbitmq:3.13-management
     container_name: rabbitmq
+    environment:
+      RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
     ports:
       - "5672:5672"
       - "15672:15672"
+    tmpfs:
+      - /var/lib/rabbitmq
     healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
       interval: 10s
-      timeout: 5s
-      retries: 5
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+
+  authservice:
+    build:
+      context: .
+      dockerfile: src/AuthService/Dockerfile
+    container_name: authservice
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ConnectionStrings__AuthDb: "Host=postgres;Port=5432;Database=AuthServiceDb;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}"
+      Jwt__Issuer: ${JWT_ISSUER}
+      Jwt__Audience: ${JWT_AUDIENCE}
+      Jwt__Key: ${JWT_KEY}
+      Jwt__ExpiresInMinutes: ${JWT_EXPIRES_MINUTES}
+      Seed__AdminEmail: ${SEED_ADMIN_EMAIL}
+      Seed__AdminPassword: ${SEED_ADMIN_PASSWORD}
+    ports:
+      - "5003:8080"
+
+  productservice:
+    build:
+      context: .
+      dockerfile: src/ProductService/Dockerfile
+    container_name: productservice
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      MongoDb__ConnectionString: "mongodb://mongodb:27017"
+      MongoDb__DatabaseName: "ProductServiceDb"
+      RabbitMq__Host: "rabbitmq"
+      RabbitMq__Username: ${RABBITMQ_USER}
+      RabbitMq__Password: ${RABBITMQ_PASSWORD}
+      Jwt__Issuer: ${JWT_ISSUER}
+      Jwt__Audience: ${JWT_AUDIENCE}
+      Jwt__Key: ${JWT_KEY}
+      Jwt__ExpiresInMinutes: ${JWT_EXPIRES_MINUTES}
+    ports:
+      - "5001:8080"
+
+  orderservice:
+    build:
+      context: .
+      dockerfile: src/OrderService/Dockerfile
+    container_name: orderservice
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      ConnectionStrings__OrderDb: "Host=postgres;Port=5432;Database=OrderServiceDb;Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}"
+      RabbitMq__Host: "rabbitmq"
+      RabbitMq__Username: ${RABBITMQ_USER}
+      RabbitMq__Password: ${RABBITMQ_PASSWORD}
+      Jwt__Issuer: ${JWT_ISSUER}
+      Jwt__Audience: ${JWT_AUDIENCE}
+      Jwt__Key: ${JWT_KEY}
+      Jwt__ExpiresInMinutes: ${JWT_EXPIRES_MINUTES}
+    ports:
+      - "5002:8080"
+
+  apigateway:
+    build:
+      context: .
+      dockerfile: src/ApiGateway/Dockerfile
+    container_name: apigateway
+    depends_on:
+      - authservice
+      - productservice
+      - orderservice
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Docker"
+    ports:
+      - "${GATEWAY_PORT}:8080"
 
 volumes:
   postgres-data:

@@ -12,10 +12,10 @@ public static class ProductEndpoints
 
         group.MapGet("/", GetAllProducts);
         group.MapGet("/{id}", GetProductById);
-        group.MapPost("/", CreateProduct);
-        group.MapPut("/{id}", ReplaceProduct);
-        group.MapPatch("/{id}", PatchProduct);
-        group.MapDelete("/{id}", DeleteProduct);
+        group.MapPost("/", CreateProduct).RequireAuthorization("AdminOnly");
+        group.MapPut("/{id}", ReplaceProduct).RequireAuthorization("AdminOnly");
+        group.MapPatch("/{id}", PatchProduct).RequireAuthorization("AdminOnly");
+        group.MapDelete("/{id}", DeleteProduct).RequireAuthorization("AdminOnly");
     }
 
     public static async Task<IResult> GetAllProducts(IProductRepository repository) =>
