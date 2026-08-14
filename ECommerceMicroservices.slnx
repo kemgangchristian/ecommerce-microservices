@@ -9,6 +9,7 @@
     <Project Path="src/Shared/ECommerce.Contracts/ECommerce.Contracts.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/AuthService.Tests/AuthService.Tests.csproj" />
     <Project Path="tests/Integration.Tests/Integration.Tests.csproj" />
     <Project Path="tests/OrderService.Tests/OrderService.Tests.csproj" />
     <Project Path="tests/ProductService.Tests/ProductService.Tests.csproj" />

@@ -99,3 +99,6 @@ app.MapProductEndpoints();
 app.MapGet("/health", () => Results.Ok(new { status = "healthy", service = "ProductService" }));
 
 app.Run();
+
+// Nécessaire pour que WebApplicationFactory<Program> (tests d'intégration) accède à Program.
+public partial class Program { }
