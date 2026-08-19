@@ -1,0 +1,21 @@
+"use client";
+
+import { useActionState } from "react";
+import { register } from "@/lib/actions/auth";
+
+export default function RegisterPage() {
+  const [state, formAction, pending] = useActionState(register, undefined);
+
+  return (
+    <form action={formAction} className="max-w-sm mx-auto mt-20 space-y-4">
+      <h1 className="text-xl font-bold">Inscription</h1>
+      <input name="fullName" placeholder="Nom complet" required className="border p-2 w-full" />
+      <input name="email" type="email" placeholder="Email" required className="border p-2 w-full" />
+      <input name="password" type="password" placeholder="Mot de passe" required className="border p-2 w-full" />
+      {state?.error && <p className="text-red-600 text-sm">{state.error}</p>}
+      <button type="submit" disabled={pending} className="bg-black text-white px-4 py-2 w-full">
+        {pending ? "Inscription..." : "S'inscrire"}
+      </button>
+    </form>
+  );
+}
